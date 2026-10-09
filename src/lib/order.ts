@@ -1,4 +1,4 @@
-import { getProduct, type Product } from "@/lib/products";
+import { getProduct, isPurchasable, type Product } from "@/lib/products";
 
 export const MAX_QTY = 999;
 
@@ -22,11 +22,13 @@ export function priceCart(input: unknown): { lines: PricedLine[]; subtotal: numb
   for (const [slug, qty] of merged) {
     const product = getProduct(slug);
     if (!product) return null;
+    // Quote-only products have no price and must never reach a paid order.
+    if (!isPurchasable(product)) return null;
     lines.push({ product, qty, lineTotal: product.price * qty });
   }
   return { lines, subtotal: lines.reduce((s, l) => s + l.lineTotal, 0) };
 }
 
 export function summariseLines(lines: PricedLine[]): string {
-  return lines.map((l) => `${l.qty} × ${l.product.name} @ ₹${l.product.price} = ₹${l.lineTotal}`).join("\n");
+  return lines.map((l) => `${l.qty} × ${l.product.name} @ ₹${l.product.price ?? "?"} = ₹${l.lineTotal}`).join("\n");
 }

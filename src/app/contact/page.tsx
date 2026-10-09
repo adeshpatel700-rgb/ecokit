@@ -45,6 +45,7 @@ export default function Contact() {
               <div>
                 <p className="contact-detail__label">Phone</p>
                 <a href={SITE.phoneHref} className="contact-detail__value">{SITE.phone}</a>
+                <a href={SITE.phoneAltHref} className="contact-detail__value" style={{display:"block"}}>{SITE.phoneAlt}</a>
               </div>
             </div>
 

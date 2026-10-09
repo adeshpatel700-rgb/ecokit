@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import QuickAdd from "@/components/QuickAdd";
-import { formatPrice, getCategoryLabel, type Product } from "@/lib/products";
+import { getCategoryLabel, isPurchasable, priceLabel, type Product } from "@/lib/products";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
@@ -25,10 +25,12 @@ export default function ProductCard({ product }: { product: Product }) {
         <p className="product-card__desc">{product.description}</p>
         <div className="product-card__footer">
           <div>
-            <p className="product-card__price">{formatPrice(product.price)}</p>
+            <p className={`product-card__price${isPurchasable(product) ? "" : " product-card__price--quote"}`}>{priceLabel(product)}</p>
           </div>
           <div>
-            <QuickAdd slug={product.slug} name={product.name} />
+            {isPurchasable(product)
+              ? <QuickAdd slug={product.slug} name={product.name} />
+              : <Link href={`/quote?product=${product.slug}`} className="btn btn--primary btn--sm">Enquire</Link>}
             <Link href={`/products/${product.slug}`} className="btn btn--secondary btn--sm">View</Link>
           </div>
         </div>

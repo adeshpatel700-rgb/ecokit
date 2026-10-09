@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useMemo, useState, useSyncExternalStore, type ReactNode } from "react";
-import { getProduct, type Product } from "@/lib/products";
+import { getProduct, isPurchasable, type Product } from "@/lib/products";
 import { MAX_QTY, type CartLine } from "@/lib/order";
 
 const KEY = "ecokit-cart-v1";
@@ -33,15 +33,18 @@ function parse(raw: string): CartLine[] {
     const out: CartLine[] = [];
     for (const item of data) {
       const { slug, qty } = (item ?? {}) as { slug?: unknown; qty?: unknown };
-      if (typeof slug === "string" && typeof qty === "number" && Number.isInteger(qty) && qty > 0 && getProduct(slug)) {
-        out.push({ slug, qty: Math.min(qty, MAX_QTY) });
+      const prod = typeof slug === "string" ? getProduct(slug) : undefined;
+      // Quote-only items are not purchasable, so they are dropped from stored carts.
+      if (prod && isPurchasable(prod) && typeof qty === "number" && Number.isInteger(qty) && qty > 0) {
+        out.push({ slug: prod.slug, qty: Math.min(qty, MAX_QTY) });
       }
     }
     return out;
   } catch { return []; }
 }
 
-export interface CartItem { product: Product; qty: number; lineTotal: number }
+/** Everything in the cart is purchasable, so `unitPrice` is always a number. */
+export interface CartItem { product: Product; qty: number; unitPrice: number; lineTotal: number }
 
 interface CartContextValue {
   items: CartItem[];
@@ -65,7 +68,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const items = useMemo<CartItem[]>(
-    () => lines.map((l) => { const product = getProduct(l.slug)!; return { product, qty: l.qty, lineTotal: product.price * l.qty }; }),
+    () => lines.map((l) => { const product = getProduct(l.slug)!; const unitPrice = product.price ?? 0;
+      return { product, qty: l.qty, unitPrice, lineTotal: unitPrice * l.qty }; }),
     [lines]
   );
   const count = items.reduce((n, i) => n + i.qty, 0);
@@ -73,7 +77,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const save = (next: CartLine[]) => write(JSON.stringify(next));
   const add = useCallback((slug: string, qty = 1) => {
-    if (!getProduct(slug)) return;
+    const prod = getProduct(slug);
+    if (!prod || !isPurchasable(prod)) return;
     const current = parse(read());
     const found = current.find((l) => l.slug === slug);
     write(JSON.stringify(found

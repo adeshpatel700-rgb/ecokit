@@ -46,14 +46,14 @@ export default function CartDrawer() {
         ) : (
           <>
             <ul className="cart-lines">
-              {items.map(({ product, qty, lineTotal }) => (
+              {items.map(({ product, qty, unitPrice, lineTotal }) => (
                 <li key={product.slug} className="cart-line">
                   <Link href={`/products/${product.slug}`} className="cart-line__img">
                     <Image src={product.image} alt="" width={80} height={100} />
                   </Link>
                   <div className="cart-line__info">
                     <Link href={`/products/${product.slug}`} className="cart-line__name">{product.name}</Link>
-                    <p className="cart-line__price">{formatPrice(product.price)} each</p>
+                    <p className="cart-line__price">{formatPrice(unitPrice)} each</p>
                     <div className="cart-line__controls">
                       <QtyStepper size="sm" value={qty} label={product.name} onChange={(n) => setQty(product.slug, n)} />
                       <button type="button" className="cart-line__remove" onClick={() => remove(product.slug)}>Remove</button>

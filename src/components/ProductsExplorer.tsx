@@ -30,8 +30,14 @@ export default function ProductsExplorer({ products, initialCategory }: Props) {
       if (q && !`${p.name} ${p.description}`.toLowerCase().includes(q)) return false;
       return true;
     });
-    if (sort === "price-asc") return [...list].sort((a, b) => a.price - b.price);
-    if (sort === "price-desc") return [...list].sort((a, b) => b.price - a.price);
+    // Quote-only products have no price, so they always sort to the end.
+    const byPrice = (dir: 1 | -1) => (a: Product, b: Product) => {
+      if (a.price === null) return 1;
+      if (b.price === null) return -1;
+      return (a.price - b.price) * dir;
+    };
+    if (sort === "price-asc") return [...list].sort(byPrice(1));
+    if (sort === "price-desc") return [...list].sort(byPrice(-1));
     if (sort === "name") return [...list].sort((a, b) => a.name.localeCompare(b.name));
     return list;
   }, [products, query, categories, materials, sort]);

@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import AddToCart from "@/components/AddToCart";
+import QuoteOnlyBuybox from "@/components/QuoteOnlyBuybox";
 import ProductCard from "@/components/ProductCard";
 import { SITE } from "@/lib/site";
-import { MATERIALS, formatPrice, getCategoryLabel, getProduct, getRelatedProducts, products } from "@/lib/products";
+import { MATERIALS, getCategoryLabel, getProduct, getRelatedProducts, isPurchasable, priceLabel, products } from "@/lib/products";
 
 interface Params { params: Promise<{ slug: string }> }
 
@@ -39,7 +40,9 @@ export default async function ProductPage({ params }: Params) {
     image: `${SITE.url}${product.image}`,
     category: getCategoryLabel(product.category),
     brand: { "@type": "Brand", name: SITE.name },
-    offers: { "@type": "Offer", priceCurrency: "INR", price: product.price, url: `${SITE.url}/products/${product.slug}` },
+    ...(isPurchasable(product)
+      ? { offers: { "@type": "Offer", priceCurrency: "INR", price: product.price, url: `${SITE.url}/products/${product.slug}` } }
+      : {}),
   };
 
   return (
@@ -63,9 +66,13 @@ export default async function ProductPage({ params }: Params) {
               <p className="product-card__category">{getCategoryLabel(product.category)}</p>
               <h1 style={{ margin: "0.5rem 0 var(--space-3)" }}>{product.name}</h1>
               <p style={{ fontSize: "var(--text-lg)", color: "var(--color-charcoal-soft)", marginBottom: "var(--space-4)" }}>{product.description}</p>
-              <p className="product-detail__price">{formatPrice(product.price)}</p>
-              <p style={{ fontSize: "var(--text-sm)", color: "var(--color-charcoal-mute)", margin: "0.25rem 0 var(--space-4)" }}>Price per unit</p>
-              <AddToCart slug={product.slug} name={product.name} price={formatPrice(product.price)} />
+              <p className={`product-detail__price${isPurchasable(product) ? "" : " product-detail__price--quote"}`}>{priceLabel(product)}</p>
+              <p style={{ fontSize: "var(--text-sm)", color: "var(--color-charcoal-mute)", margin: "0.25rem 0 var(--space-4)" }}>
+                {isPurchasable(product) ? "Price per unit" : "Tell us your quantity and we'll send pricing within 24 hours."}
+              </p>
+              {isPurchasable(product)
+                ? <AddToCart slug={product.slug} name={product.name} price={priceLabel(product)} />
+                : <QuoteOnlyBuybox slug={product.slug} name={product.name} />}
               <dl className="product-facts">
                 <div><dt>Category</dt><dd>{getCategoryLabel(product.category)}</dd></div>
                 {product.materials.length > 0 && <div><dt>Material</dt><dd>{product.materials.map((m) => MATERIALS.find((x) => x.slug === m)?.label ?? m).join(", ")}</dd></div>}

@@ -16,7 +16,7 @@
 
 import { spawn, spawnSync } from "node:child_process";
 import { createServer } from "node:net";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { networkInterfaces } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -60,8 +60,25 @@ if (!existsSync(join(ROOT, "package.json"))) {
   die(`No package.json in ${ROOT}`, "Keep this script inside the project's scripts/ folder.");
 }
 
-if (!existsSync(join(ROOT, "node_modules", "next"))) {
-  console.log(`${c.y("→")} First run — installing dependencies (a few minutes, once only)…\n`);
+// Install when node_modules is missing OR when package.json has gained a
+// dependency that isn't installed yet (e.g. after pulling new code).
+function missingDeps() {
+  try {
+    const pkg = JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8"));
+    const names = Object.keys({ ...pkg.dependencies, ...pkg.devDependencies });
+    return names.filter((n) => !existsSync(join(ROOT, "node_modules", ...n.split("/"))));
+  } catch {
+    return [];
+  }
+}
+
+const missing = missingDeps();
+if (missing.length > 0) {
+  console.log(
+    existsSync(join(ROOT, "node_modules"))
+      ? `${c.y("→")} New dependencies to install (${missing.slice(0, 4).join(", ")}${missing.length > 4 ? "…" : ""})…\n`
+      : `${c.y("→")} First run — installing dependencies (a few minutes, once only)…\n`
+  );
   const npm = IS_WIN ? "npm.cmd" : "npm";
   const res = spawnSync(npm, ["install"], { cwd: ROOT, stdio: "inherit", shell: IS_WIN });
   if (res.status !== 0) die("npm install failed.", "Check your internet connection and try again.");

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
+import { isFirebaseConfigured } from "@/lib/firebase/admin";
 import { FIELDS, validateEnquiry, type EnquiryKind, type EnquiryValues } from "@/lib/enquiry";
 import { priceCart, summariseLines } from "@/lib/order";
+import { saveEnquiry } from "@/lib/content";
 
 export const runtime = "nodejs";
 
@@ -51,13 +53,23 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "Please correct the highlighted fields.", errors }, { status: 422 });
   }
 
+  // Store it first: Firestore is the durable record, the webhook is the notification.
+  await saveEnquiry({
+    kind,
+    values: clean,
+    createdAt: new Date().toISOString(),
+    ...(orderSummary ? { orderLines: orderSummary.lines, orderTotal: orderSummary.total } : {}),
+  });
+
   const webhook = process.env.ENQUIRY_WEBHOOK_URL;
   if (!webhook) {
     if (process.env.NODE_ENV !== "production") {
       console.info("[enquiry:dev]", kind, clean, orderSummary);
       return NextResponse.json({ ok: true });
     }
-    console.error("[enquiry] ENQUIRY_WEBHOOK_URL is not configured");
+    // Firestore has it, so the enquiry is safe even with no webhook configured.
+    if (isFirebaseConfigured()) return NextResponse.json({ ok: true });
+    console.error("[enquiry] no ENQUIRY_WEBHOOK_URL and no Firestore — enquiry cannot be stored");
     return NextResponse.json(
       { ok: false, message: "We can't take enquiries online right now. Please email hello@ecokit.in or message us on WhatsApp." },
       { status: 503 }

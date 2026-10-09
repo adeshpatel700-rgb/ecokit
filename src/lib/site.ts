@@ -5,10 +5,12 @@ export const SITE = {
   description:
     "Premium eco-friendly hospitality amenities and personal care essentials for hotels, businesses and conscious homes.",
   email: "hello@ecokit.in",
-  // TODO(client): confirm real phone / WhatsApp number — the site currently uses a placeholder.
-  phone: "+91 99999 99999",
-  phoneHref: "tel:+919999999999",
-  whatsappHref: "https://wa.me/919999999999",
+  // Supplied by the client 2026-10-05.
+  phone: "+91 74791 01230",
+  phoneHref: "tel:+917479101230",
+  phoneAlt: "+91 79085 89297",
+  phoneAltHref: "tel:+917908589297",
+  whatsappHref: "https://wa.me/917479101230",
   hours: "Mon – Sat, 9am – 6pm IST",
 } as const;
 

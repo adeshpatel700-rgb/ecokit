@@ -130,7 +130,7 @@ main > .container.legal-content {
 .filter-toggle { display: none; }
 
 @media (max-width: 900px) {
-  .products-layout { grid-template-columns: 1fr; gap: var(--space-4); }
+  .products-layout { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
   .filter-toggle { display: inline-flex; }
   .filter-sidebar { position: static; display: none; }
   .filter-sidebar.open { display: flex; }
@@ -199,11 +199,11 @@ a.contact-detail__value:hover { color: var(--color-forest); }
 .quote-why-item__desc { font-size: var(--text-sm); }
 
 @media (max-width: 900px) {
-  .contact-layout, .quote-layout { grid-template-columns: 1fr; gap: var(--space-8); }
+  .contact-layout, .quote-layout { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
   .contact-form-card, .quote-form-card { padding: var(--space-4); }
 }
 @media (max-width: 560px) {
-  .form-grid-2 { grid-template-columns: 1fr; }
+  .form-grid-2 { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ── FAQ ─────────────────────────────────────────────────── */
@@ -255,7 +255,7 @@ a.contact-detail__value:hover { color: var(--color-forest); }
 .material-item__desc { font-size: var(--text-sm); color: var(--color-charcoal-soft); }
 
 @media (max-width: 900px) { .values-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .values-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .values-grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* ── Hospitality ─────────────────────────────────────────── */
 .why-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
@@ -291,7 +291,7 @@ a.contact-detail__value:hover { color: var(--color-forest); }
   padding: var(--space-8);
   border: 1px solid var(--color-beige-dark);
 }
-.procurement-grid { display: grid; grid-template-columns: 5fr 7fr; gap: var(--space-8); align-items: start; }
+.procurement-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-8); align-items: start; }
 .procurement-qa { display: flex; flex-direction: column; }
 .qa-item { padding-block: var(--space-3); border-bottom: 1px solid var(--color-beige-dark); }
 .qa-item:first-child { padding-top: 0; }
@@ -301,10 +301,10 @@ a.contact-detail__value:hover { color: var(--color-forest); }
 
 @media (max-width: 1024px) { .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 900px) {
-  .procurement-grid { grid-template-columns: 1fr; }
+  .procurement-grid { grid-template-columns: minmax(0, 1fr); }
   .procurement-box { padding: var(--space-4); }
 }
-@media (max-width: 560px) { .why-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .why-grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* ── Custom kits ─────────────────────────────────────────── */
 .kit-examples-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
@@ -320,15 +320,15 @@ a.contact-detail__value:hover { color: var(--color-forest); }
 .kit-example-card__body { padding: var(--space-4); }
 .kit-example-card__name { font-size: var(--text-lg); margin-bottom: var(--space-1); }
 .kit-example-card__products { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: var(--space-2); }
-.engraving-showcase { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: center; }
-.engraving-before-after-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+.engraving-showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-8); align-items: center; }
+.engraving-before-after-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2); }
 .before-after-item { position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 1; }
 .before-after-item img { width: 100%; height: 100%; object-fit: cover; }
 .before-after-item__tag { position: absolute; left: var(--space-2); top: var(--space-2); }
 
 @media (max-width: 1024px) { .kit-examples-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 900px) { .engraving-showcase { grid-template-columns: 1fr; gap: var(--space-4); } }
-@media (max-width: 560px) { .kit-examples-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .engraving-showcase { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); } }
+@media (max-width: 560px) { .kit-examples-grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* ── Footer ──────────────────────────────────────────────── */
 
@@ -352,7 +352,7 @@ a.contact-detail__value:hover { color: var(--color-forest); }
 .product-detail__image img { width: 100%; height: auto; display: block; aspect-ratio: 4 / 5; object-fit: cover; }
 .product-detail__price { font-family: var(--font-serif); font-size: var(--text-3xl); color: var(--color-charcoal); line-height: 1.1; }
 .products-grid > [role="listitem"] { min-width: 0; }
-@media (max-width: 900px) { .product-detail { grid-template-columns: 1fr; gap: var(--space-4); } }
+@media (max-width: 900px) { .product-detail { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); } }
 
 .skip-link {
   position: absolute; left: -9999px; top: 0; z-index: 1000;
@@ -399,7 +399,7 @@ a.contact-detail__value:hover { color: var(--color-forest); }
 .page-hero__image { border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg); aspect-ratio: 4 / 3; background: var(--color-beige); }
 .page-hero__image img { width: 100%; height: 100%; object-fit: cover; display: block; }
 @media (max-width: 900px) {
-  .page-hero--split .page-hero__grid { grid-template-columns: 1fr; gap: var(--space-4); }
+  .page-hero--split .page-hero__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
   .page-hero { padding-top: calc(var(--nav-height) + 38px + var(--space-6)); }
 }
 main > .container.faq-container, main > .container.legal-content { padding-top: 0; }
@@ -476,7 +476,7 @@ main > .container.faq-container, main > .container.legal-content { padding-top: 
 .summary-lines { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; font-size: var(--text-sm); color: var(--color-charcoal-soft); }
 .summary-lines li { display: flex; justify-content: space-between; gap: var(--space-2); }
 .checkout-form { min-width: 0; }
-@media (max-width: 900px) { .cart-page { grid-template-columns: 1fr; gap: var(--space-4); } .cart-summary { position: static; } }
+@media (max-width: 900px) { .cart-page { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); } .cart-summary { position: static; } }
 @media (prefers-reduced-motion: reduce) { .cart-drawer[open], .cart-drawer::backdrop, .cart-count--pop { animation: none; } }
 
 .form-status--info { background: var(--color-beige); color: var(--color-charcoal); border-left: 3px solid var(--color-olive); }
@@ -580,3 +580,106 @@ a.kit-option { color: inherit; text-decoration: none; }
 /* Decorative numerals: marigold on a light card is 2.03 — the deep
    marigold keeps the warmth and reads at 5.63. */
 .value-card__number { color: var(--color-olive-deep); }
+
+/* ============================================================
+   MOBILE RESPONSIVENESS
+   Fixes only — no layout or styling changes above 480px, so the
+   laptop rendering is byte-for-byte what it was.
+   ============================================================ */
+
+/* 1. Long CTA labels.
+   .btn is `white-space: nowrap` with 2.25rem of side padding, so labels like
+   "Our Sustainability Commitment →" measured 352px and pushed the whole page
+   sideways on a 320–375px screen. Below 480px they may wrap and can never
+   exceed their container. */
+@media (max-width: 480px) {
+  .btn { max-width: 100%; }
+  .btn--lg {
+    white-space: normal;
+    padding-inline: var(--space-3);
+    text-align: center;
+    line-height: 1.35;
+  }
+}
+
+/* 2. Touch targets.
+   Expanded with an absolutely-positioned overlay rather than padding, so the
+   tappable area grows while the element's size and the surrounding layout stay
+   exactly as designed. Insets are tuned so neighbouring targets never overlap. */
+.nav__mobile-toggle,
+.footer__link,
+.tag,
+.buybox__link,
+.contact-detail__value,
+.filter-clear,
+.cart-line__remove { position: relative; }
+
+.nav__mobile-toggle::after,
+.footer__link::after,
+.tag::after,
+.buybox__link::after,
+.contact-detail__value::after,
+.filter-clear::after,
+.cart-line__remove::after {
+  content: "";
+  position: absolute;
+  inset: -7px -6px;
+}
+/* The hamburger is the primary mobile control — give it a full 44px. */
+.nav__mobile-toggle::after { inset: -8px -10px; }
+/* Footer links sit 0.6rem apart; keep the overlay inside that gap. */
+.footer__link::after { inset: -4px -4px; }
+
+/* Icons inside expanded controls must not swallow the tap. */
+.nav__mobile-toggle span { position: relative; z-index: 1; }
+
+/* Breadcrumb links: expand vertically only — horizontal expansion would make
+   adjacent crumbs overlap and steal each other's taps. */
+nav[aria-label="Breadcrumb"] a { position: relative; }
+nav[aria-label="Breadcrumb"] a::after { content: ""; position: absolute; inset: -8px 0; }
+
+/* The quantity field sat 29px tall inside a 44px control. Stretching it fills
+   the control it already lives in — the input is transparent, so nothing
+   looks different, but the whole stepper height becomes tappable. */
+.qty__input { align-self: stretch; }
+
+/* Quote-only products: the price slot carries a label, not a number. */
+.product-card__price--quote,
+.product-detail__price--quote {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-olive-deep);
+}
+.product-detail__price--quote { font-size: var(--text-lg); }
+
+/* ── Journal / blog ──────────────────────────────────────── */
+.blog-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+.blog-card { background: var(--color-white); border: 1px solid var(--color-beige-dark); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); transition: transform var(--duration-base) var(--ease-out), box-shadow var(--duration-base) var(--ease-out); }
+.blog-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.blog-card__media { display: block; aspect-ratio: 3 / 2; overflow: hidden; background: var(--color-beige); }
+.blog-card__media img { width: 100%; height: 100%; object-fit: cover; }
+.blog-card__placeholder { display: block; width: 100%; height: 100%; background: linear-gradient(140deg, var(--color-forest-mist), var(--color-olive-mist)); }
+.blog-card__body { padding: var(--space-3); display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
+.blog-card__date { font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-charcoal-mute); }
+.blog-card__title { font-size: var(--text-lg); line-height: 1.25; }
+.blog-card__title a { color: var(--color-charcoal); }
+.blog-card__title a:hover { color: var(--color-forest); }
+.blog-card__excerpt { font-size: var(--text-sm); color: var(--color-charcoal-soft); }
+
+.post-head { max-width: 760px; }
+.post-head__meta { font-size: var(--text-sm); color: var(--color-charcoal-mute); margin-bottom: var(--space-2); }
+.post-head__meta a { color: var(--color-forest); }
+.post-cover { border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-lg); margin-top: var(--space-4); }
+.post-cover img { width: 100%; height: auto; display: block; }
+.post-body { max-width: 720px; }
+.post-body p, .post-body ul { margin-bottom: var(--space-3); color: var(--color-charcoal-mid); line-height: 1.75; }
+.post-body h2 { font-size: var(--text-2xl); margin: var(--space-6) 0 var(--space-2); }
+.post-body h3 { font-size: var(--text-lg); margin: var(--space-4) 0 var(--space-2); }
+.post-body ul { padding-left: 1.2rem; }
+.post-body li { margin-bottom: 0.4rem; }
+.post-back { margin-top: var(--space-6); }
+.post-back a { color: var(--color-forest); font-weight: 600; }
+
+@media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .blog-grid { grid-template-columns: minmax(0, 1fr); } }

@@ -17,6 +17,7 @@ const COLUMNS = [
   ] },
   { heading: "Company", links: [
     { href: "/about", label: "Our Story" },
+    { href: "/blog", label: "Journal" },
     { href: "/hospitality", label: "For Hotels" },
     { href: "/contact", label: "Contact" },
   ] },
@@ -50,6 +51,8 @@ export default function Footer() {
             )}
             <p style={{ marginTop: "1.5rem", fontSize: "0.875rem" }}>
               <a href={`mailto:${SITE.email}`} className="footer__link">{SITE.email}</a>
+              <br />
+              <a href={SITE.phoneHref} className="footer__link">{SITE.phone}</a>
             </p>
           </div>
 
