@@ -368,6 +368,10 @@ a.contact-detail__value:hover { color: var(--color-forest); }
   box-shadow: 0 2px 10px rgba(20, 52, 43, 0.10);
 }
 .nav__logo img { height: 54px; width: auto; object-fit: contain; display: block; }
+@media (max-width: 480px) {
+  .nav__logo { border-radius: 10px; padding: 2px 8px; }
+  .nav__logo img { height: 40px; }
+}
 .footer__logo-badge { padding: 0.35rem 0.75rem; }
 
 /* Equal-height product cards with a consistent image ratio */
